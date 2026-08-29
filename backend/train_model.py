@@ -10,9 +10,6 @@ DATA_PATH = "data/transactions.csv"
 MODEL_PATH = "models/fraud_model.pkl"
 
 def generate_synthetic_data(n=20000):
-    """Generates realistic fraud data. with the Kaggle creditcard.csv
-    (https://www.kaggle.comatasets/mlg-ulb/creditcardfraud) real data —
-    keep the same column names and everything else works unchanged."""
     rng = np.random.default_rng(42)
     n_fraud = int(n * 0.03)
     legit = pd.DataFrame({
@@ -42,10 +39,9 @@ def main():
     else:
         df = generate_synthetic_data()
 
-   features = ["amount", "hour_of_day", "account_age_days", "txn_last_24h", "addr_mismatch"]
+    features = ["amount", "hour_of_day", "account_age_days", "txn_last_24h", "addr_mismatch"]
     X, y = df[features], df["is_fraud"]
 
-    # Held-out test set — never touched during training
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y, random_state=42)
 
     model = GradientBoostingClassifier(n_estimators=200, max_depth=4, random_state=42)
@@ -60,12 +56,11 @@ def main():
     print(f"Precision: {precision:.4f}")
     print(f"Recall:    {recall:.4f}")
     print(f"False positives: {fp} of {tn+fp} legit txns  (FP rate {fp/(tn+fp):.4f})")
-    print(f"Estimated avg FP cost: ₹{df[df.is_fraud==0]['amount'].mean():.0f} per blocked legit txn")
     print(classification_report(y_test, y_pred))
 
     os.makedirs("models", exist_ok=True)
     joblib.dump(model, MODEL_PATH)
-    print(f"Model saved → {MODEL_PATH}")
+    print(f"Model saved -> {MODEL_PATH}")
 
 if __name__ == "__main__":
     main()
