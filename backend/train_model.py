@@ -10,8 +10,8 @@ DATA_PATH = "data/transactions.csv"
 MODEL_PATH = "models/fraud_model.pkl"
 
 def generate_synthetic_data(n=20000):
-    """Generates realistic fraud data. Replace with the Kaggle creditcard.csv
-    (https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) for real data —
+    """Generates realistic fraud data. with the Kaggle creditcard.csv
+    (https://www.kaggle.comatasets/mlg-ulb/creditcardfraud) real data —
     keep the same column names and everything else works unchanged."""
     rng = np.random.default_rng(42)
     n_fraud = int(n * 0.03)
@@ -42,7 +42,7 @@ def main():
     else:
         df = generate_synthetic_data()
 
-    features = ["amount", "hour_of_day", "account_24h", "addr_mismatch"]
+    = ["amount", "hour_of_day", "account_age_days", "txn_last_24h", "addr_mismatch"]
     X, y = df[features], df["is_fraud"]
 
     # Held-out test set — never touched during training
