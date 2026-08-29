@@ -42,7 +42,7 @@ def main():
     else:
         df = generate_synthetic_data()
 
-    = ["amount", "hour_of_day", "account_age_days", "txn_last_24h", "addr_mismatch"]
+   features = ["amount", "hour_of_day", "account_age_days", "txn_last_24h", "addr_mismatch"]
     X, y = df[features], df["is_fraud"]
 
     # Held-out test set — never touched during training
